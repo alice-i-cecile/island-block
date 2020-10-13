@@ -53,8 +53,6 @@ end
 local removerecipes = {}
 for _,v in ipairs({
   'bob-resin-wood',
-  'burner-mining-drill',
-  --'electric-mining-drill',
   'slag-processing-nuc',
   'alien-artifact-red-from-basic',
   'alien-artifact-orange-from-basic',

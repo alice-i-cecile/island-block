@@ -80,7 +80,6 @@ data:extend({
   effects = {
     {type = "unlock-recipe", recipe = "inserter"},
     {type = "unlock-recipe", recipe = "algae-green-simple"},
-    --{type = "unlock-recipe", recipe = "gas-carbon-dioxide-from-wood"},
     {type = "unlock-recipe", recipe = "pipe"},
     {type = "unlock-recipe", recipe = "pipe-to-ground"},
     {type = "unlock-recipe", recipe = "copper-pipe"},

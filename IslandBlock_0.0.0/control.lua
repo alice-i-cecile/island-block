@@ -21,29 +21,9 @@ seablock.giveitems = function(entity)
     landfill = 'landfill-sand-3'
   end
   local stuff = {
-    {landfill, 1000},
-    {"stone", 50},
-    {"small-electric-pole", 50},
-    {"small-lamp", 12},
-
-    {"iron-plate", 1200},
-    {"basic-circuit-board", 200},
-    {"stone-pipe", 100},
-    {"stone-pipe-to-ground", 50},
-    {"stone-brick", 500},
-    {"pipe", 27},
-    {"copper-pipe", 5},
-    {"iron-gear-wheel", 25},
-    {"iron-stick", 96},
-    {"pipe-to-ground", 2},
-    {"electronic-circuit", 10}
+    {"boat", 1},
+    {"algae-farm", 1},
   }
-  if game.item_prototypes["wind-turbine-2"] then
-    table.insert(stuff, {"wind-turbine-2", 120})
-  else
-    table.insert(stuff, {"solar-panel", 38})
-    table.insert(stuff, {"accumulator", 32})
-  end
   for _,v in ipairs(stuff) do
     entity.insert{name = v[1], count = v[2]}
   end
@@ -55,12 +35,6 @@ end)
 
 script.on_event(defines.events.on_force_created, function(e)
   seablock.giveresearch(e.force)
-end)
-
-script.on_event(defines.events.on_player_created, function(e)
-  local player = game.players[e.player_index]
-  player.remove_item{name = 'burner-mining-drill', count = 1}
-  player.remove_item{name = 'wood', count = 1}
 end)
 
 script.on_event(defines.events.on_chunk_generated, function(e)
@@ -104,10 +78,6 @@ local function init()
 end
 local function haveitem(player, itemname, crafted)
   local unlock = global.unlocks[itemname]
-  -- Special case for basic-circuit because it is part of starting equipment
-  if unlock and (itemname ~= 'basic-circuit-board' or crafted) then
-    player.force.technologies[unlock].researched = true
-  end
 end
 
 script.on_event(defines.events.on_player_crafted_item, function(e)
