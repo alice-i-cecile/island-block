@@ -600,104 +600,12 @@ for k,v in pairs(sbtechs) do
     movedrecipes[effect.recipe] = true
   end
 end
-local disabledrecipes = {}
-
--- Don't want any recipes available that consume our carefully
--- selected starting items until the self-sufficient startup is complete
-local function ironrecipe(recipe)
-  local foundiron = false
-  local ironnames = {
-    ['iron-plate'] = true,
-    ['iron-gear-wheel'] = true,
-    ['iron-stick'] = true,
-    ['pipe'] = true,
-    ['pipe-to-ground'] = true,
-    ['basic-circuit-board'] = true,
-    ['electronic-circuit'] = true,
-    ['stone-brick'] = true,
-    ['copper-plate'] = true,
-    ['copper-cable'] = true,
-    ['stone-furnace'] = true
-  }
-  local function scaningredients(recipe)
-    local haveiron = true
-    for k,v in pairs(recipe.ingredients) do
-      local nameidx = 1
-      if v.name then nameidx = 'name' end
-      if not ironnames[v[nameidx]] then
-        haveiron = false
-      end
-    end
-    foundiron = foundiron or haveiron
-  end
-  lib.iteraterecipes(recipe, scaningredients)
-  return foundiron
-end
--- Disable recipes that shouldn't consume startup items
-for k,v in pairs(data.raw.recipe) do
-  local r = v.normal or v
-  if (r.enabled == nil or r.enabled == true or r.enabled == 'true') and
-    ironrecipe(v) and
-    not v.hidden then
-    if not movedrecipes[k] then
-      table.insert(disabledrecipes, k)
-    end
-    r.enabled = false
-    if v.normal then
-      v.expensive.enabled = false
-    end
-  end
-end
-
--- Add prerequisites to technologies which are not part of the selected startup techs.
-for k,v in pairs(data.raw.technology) do
-  if (v.enabled == nil or v.enabled == true or v.enabled == 'true') and not sbtechs[k] then
-    if not v.prerequisites or #v.prerequisites == 0 then
-      local prerequisite = 'slag-processing-1'
-      if startuptechs[k] then
-        prerequisite = lasttech
-      end
-      v.prerequisites = {prerequisite}
-    end
-  end
-  if v.effects and not sbtechs[k] then
-    local neweffects = {}
-    for _,effect in pairs(v.effects) do
-      if effect.type ~= "unlock-recipe" or not movedrecipes[effect.recipe] then
-        table.insert(neweffects, effect)
-      end
-    end
-    v.effects = neweffects
-  end
-end
-
--- Disabled recipes are enabled at last stage of startup. (Laboratory research)
-for _,v in pairs(disabledrecipes) do
-  table.insert(data.raw.technology[lasttech].effects, {type="unlock-recipe", recipe=v})
-end
-for k,_ in pairs(startuprecipes) do
-  local recipe = data.raw.recipe[k]
-  if recipe.normal then
-    recipe.normal.enabled = true
-    recipe.expensive.enabled = true
-  else
-    recipe.enabled = true
-  end
-end
 
 data.raw.technology['water-washing-1'].prerequisites = {'ore-crushing'} -- Allow skipping of waste water recycling
 lib.moveeffect('yellow-waste-water-purification', 'water-treatment-2', 'water-treatment')
 data.raw.technology['electronics'].prerequisites = {
   'angels-solder-smelting-basic', 'automation', 'angels-tin-smelting-1', 'angels-coal-processing'
 }
-
--- Limit research required for startup techs.
-for k,_ in pairs(startuptechs) do
-  if data.raw.technology[k].unit.count > 20 then
-    data.raw.technology[k].unit.count = 20
-    data.raw.technology[k].unit.ingredients = {{"automation-science-pack", 1}}
-  end
-end
 
 -- Make bio-wood-processing a startup tutorial tech
 data.raw.technology['bio-wood-processing'].prerequisites = {'sb-startup2'}
