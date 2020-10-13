@@ -37,23 +37,6 @@ script.on_event(defines.events.on_force_created, function(e)
   seablock.giveresearch(e.force)
 end)
 
-script.on_event(defines.events.on_chunk_generated, function(e)
-  local surface = e.surface;
-  if surface.name ~= "nauvis" and surface.name:sub(1, 14) ~= "battle_surface" then
-    return
-  end
-  local ltx = e.area.left_top.x
-  local lty = e.area.left_top.y
-  local rbx = e.area.right_bottom.x
-  local rby = e.area.right_bottom.y
-  for k,v in pairs(surface.map_gen_settings.starting_points) do
-    if v.x >= ltx and v.y >= lty and v.x < rbx and v.y < rby then
-      local chest = surface.create_entity({name = "rock-chest", position = v, force = game.forces.neutral})
-      seablock.giveitems(chest)
-    end
-  end
-end)
-
 local function setpvp()
   if remote.interfaces.pvp then
     remote.call("pvp", "set_config", {silo_offset = {x = 16, y = 16}})
