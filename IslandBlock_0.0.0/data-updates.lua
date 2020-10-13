@@ -350,17 +350,20 @@ end
 -- Unlock basic technologies easily
 
 local basic_tech = {
-  ['bio-paper-1'],
-  ['bio-processing-brown'],
-  ['landfill'],
-  ['angels-flare-stack'],
-  ['water-treatment']
+  'bio-paper-1',
+  'bio-processing-brown',
+  'landfill',
+  'angels-flare-stack',
+  'water-treatment'
 }
 
-for k in basic_tech do 
-  k.prerequisites = {}
-  k.unit.count = 10,
-  k.ingredients = {{'automation-science-pack', 1}}
+for _, v in ipairs(basic_tech) do 
+  data.raw.technology[v].unit = {
+    count = 10,
+    ingredients = {{'automation-science-pack', 1}},
+    time = 15
+  }
+  data.raw.technology[v].prerequisites = {}
 end
 
 -- Faster steel
@@ -370,13 +373,6 @@ data.raw.technology['steel-processing'].unit.count = 20
 -- Sulfuric acid prerequisites
 table.insert(data.raw.technology['slag-processing-1'].prerequisites, 'angels-sulfur-processing-1')
 table.insert(data.raw.technology['angels-sulfur-processing-1'].prerequisites, 'water-washing-1')
-
--- Reduce science costs for base technologes
-data.raw.technology['slag-processing-1'].unit = {
-  count = 20,
-  ingredients = {{'automation-science-pack', 1}},
-  time = 15
-}
 
 -- Merge basic chemistry 2 into basic chemistry
 local function movealleffects(from, to)
