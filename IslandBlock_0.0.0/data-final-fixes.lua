@@ -52,7 +52,6 @@ end
 -- Recipes to unconditionally remove
 local removerecipes = {}
 for _,v in ipairs({
-  'bob-resin-wood',
   'slag-processing-nuc',
   'alien-artifact-red-from-basic',
   'alien-artifact-orange-from-basic',
@@ -71,39 +70,6 @@ for _,v in ipairs({
   'slag-processing-9'
 }) do
   removerecipes[v] = true
-end
-
--- Items to remove. Recipes are checked to ensure these can't be crafted,
--- then any recipe that uses an unobtainable item is removed
-local unobtainable = {}
-for _,v in ipairs({
-  --'raw-wood',
-  --'solid-oil-residual',
-  'coal',
-  'coal-crushed',
-  'circuit-wood-fiber-board',
-
-  --'gas-acid',
-  --'angels-barrel-gas-acid',
-  --'gas-acid-barrel',
-
-  --'gas-raw-1',
-  --'angels-barrel-gas-raw-1',
-  --'gas-raw-1-barrel',
-
-  'liquid-condensates',
-  'angels-barrel-liquid-condensates',
-  'liquid-condensates-barrel',
-
-  'gas-natural-1',
-  'angels-barrel-gas-natural-1',
-  'gas-natural-1-barrel',
-
-  'lithia-water',
-  'angels-barrel-lithia-water',
-  'lithia-water-barrel'
-}) do
-  unobtainable[v] = {}
 end
 
 -- unobtainable[key] -> { { a, and b, and .. }, or { c, ... } or, { d, and e, and f, ...}... }
@@ -281,6 +247,3 @@ for k,v in pairs(controls) do
     controls[k] = nil
   end
 end
-
--- Spacemod updates
-require "SpaceMod-updates"

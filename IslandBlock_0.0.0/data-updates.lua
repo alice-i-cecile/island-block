@@ -259,22 +259,6 @@ if data.raw['item-group']['sct-science'] then
   end
 end
 
--- No fuel value on these because they are also smelting inputs
--- https://forums.factorio.com/viewtopic.php?f=23&t=46634
-data.raw.item['wood-bricks'].fuel_value = nil
-data.raw.item['wood-bricks'].fuel_category = nil
-
--- First stage:                    pipe  pipe-to-ground iron-gear iron-stick
--- Electrolyser  5 circuit board                                  20
--- Liquifier     5 circuit board         2
--- Flare stack   5 circuit board*2 10*2
--- Offshore pump 2 circuit board*2 1*2                  10*2
--- Crystallizer  5 circuit board                                             5 copper-pipe
-
--- Second stage:
--- Hydro plant   5 electronic      5
--- Clarifier     5 circuit board                        5
--- Algae farm    5 circuit board                                  16
 local knowningredients = {
 ['angels-electrolyser'] = {
   {'iron-plate', 10},
@@ -301,7 +285,7 @@ local knowningredients = {
 },
 ['hydro-plant'] = {
   {'iron-plate', 10},
-  {'electronic-circuit', 5},
+  {'basic-circuit-board', 5},
   {'pipe', 5},
   {'stone-brick', 10}
 },
@@ -357,7 +341,7 @@ local knowningredients = {
 }
 
 data.raw.recipe['angels-flare-stack'].enabled = true
-data.raw.technology['angels-flare-stack'].enabled = false
+data.raw.technology['angels-flare-stack'].enabled = true
 for k,v in pairs(knowningredients) do
   local recipe = data.raw.recipe[k]
   for ek, ev in pairs(recipe.normal or {}) do
@@ -491,23 +475,6 @@ movealleffects('basic-chemistry-3', 'basic-chemistry-2')
 data.raw.technology['basic-chemistry-2'].unit = data.raw.technology['basic-chemistry-3'].unit
 data.raw.technology['basic-chemistry-3'].enabled = false
 
--- unlock lab and optional components with bio-wood-processing
-if data.raw.technology['sct-lab-t1'] then
-  for k,v in pairs(data.raw.technology['sct-lab-t1'].effects) do
-    table.insert(data.raw.technology['bio-wood-processing'].effects, v)
-  end
-  data.raw.technology['sct-lab-t1'].effects = {}
-else
-  table.insert(data.raw.technology['bio-wood-processing'].effects,
-    {type = "unlock-recipe", recipe = "lab"})
-  if data.raw.recipe['lab'].normal then
-    data.raw.recipe['lab'].normal.enabled = false
-    data.raw.recipe['lab'].expensive.enabled = false
-  else
-    data.raw.recipe['lab'].enabled = false
-  end
-end
-
 local startuprecipes = {
   ['angels-electrolyser'] = true,
   ['liquifier'] = true,
@@ -517,6 +484,8 @@ local startuprecipes = {
   ['stone-crushed'] = true,
   ['stone-brick'] = true,
   ['crystallizer'] = true,
+  ['angels-flare-stack'] = true,
+
 
   ['dirt-water-separation'] = true,
   ['sb-cellulose-foraging'] = true,
@@ -533,21 +502,6 @@ local startuprecipes = {
   ['stone-pipe'] = true,
   ['stone-pipe-to-ground'] = true
 }
-
-local sbtechs = {
-  ['sb-startup1'] = true,
-  ['sb-startup2'] = true,
-  ['bio-wood-processing'] = true,
-  --['sb-startup3'] = true,
-  --['sb-startup-sulfur'] = true,
-  ['sb-startup4'] = true
-}
-if data.raw.technology['sct-lab-t1'] then
-  sbtechs['sct-lab-t1'] = true
-end
-if data.raw.technology['sct-automation-science-pack'] then
-  sbtechs['sct-automation-science-pack'] = true
-end
 
 local startuptechs = {
   ['automation'] = true,
@@ -595,11 +549,6 @@ if data.raw.technology['sct-automation-science-pack'] then
 end
 
 local movedrecipes = table.deepcopy(startuprecipes)
-for k,v in pairs(sbtechs) do
-  for _,effect in pairs(data.raw.technology[k].effects or {}) do
-    movedrecipes[effect.recipe] = true
-  end
-end
 
 data.raw.technology['water-washing-1'].prerequisites = {'ore-crushing'} -- Allow skipping of waste water recycling
 lib.moveeffect('yellow-waste-water-purification', 'water-treatment-2', 'water-treatment')
@@ -607,13 +556,6 @@ data.raw.technology['electronics'].prerequisites = {
   'angels-solder-smelting-basic', 'automation', 'angels-tin-smelting-1', 'angels-coal-processing'
 }
 
--- Make bio-wood-processing a startup tutorial tech
-data.raw.technology['bio-wood-processing'].prerequisites = {'sb-startup2'}
-data.raw.technology['bio-wood-processing'].unit = {
-  count = 1,
-  ingredients = {{"sb-algae-green-tool", 1}},
-  time = 5
-}
 lib.takeeffect('bio-wood-processing', 'wood-pellets')
 --lib.takeeffect('bio-wood-processing', 'gas-carbon-dioxide-from-wood')
 lib.moveeffect('cellulose-fiber-algae', 'bio-processing-brown', 'bio-wood-processing', 2)
