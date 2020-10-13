@@ -1,6 +1,6 @@
-seablock = {}
+islandblock = {}
 
-seablock.giveresearch = function(force)
+islandblock.giveresearch = function(force)
   local techs = {
     'landfill',
     'bio-paper-1',
@@ -15,7 +15,7 @@ seablock.giveresearch = function(force)
   end
 end
 
-seablock.giveitems = function(entity)
+islandblock.giveitems = function(entity)
   local landfill = 'landfill'
   if game.item_prototypes['landfill-sand-3'] then
     landfill = 'landfill-sand-3'
@@ -30,11 +30,11 @@ seablock.giveitems = function(entity)
 end
 
 script.on_event(defines.events.on_player_joined_game, function(e)
-  seablock.giveresearch(game.players[e.player_index].force)
+  islandblock.giveresearch(game.players[e.player_index].force)
 end)
 
 script.on_event(defines.events.on_force_created, function(e)
-  seablock.giveresearch(e.force)
+  islandblock.giveresearch(e.force)
 end)
 
 local function setpvp()
