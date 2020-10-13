@@ -26,6 +26,10 @@ islandblock.giveitems = function(entity)
   end
 end
 
+script.on_event(defines.events.on_player_created, function(e)
+  islandblock.giveitems(game.players[e.player_index])
+end)
+
 script.on_event(defines.events.on_player_respawned, function(e)
   islandblock.giveitems(game.players[e.player_index])
 end)
