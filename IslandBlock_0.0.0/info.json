@@ -1,11 +1,11 @@
 {
-  "name": "SeaBlock",
-  "version": "0.4.8",
-  "factorio_version": "0.18",
-  "title": "Sea Block",
-  "author": "Trainwreck",
-  "homepage": "https://forums.factorio.com/viewtopic.php?t=43759",
-  "description": "No ore patches, expand from a small island. Also install the 'Sea Block Pack' mod for a complete modpack",
+  "name": "IslandBlock",
+  "version": "0.0.0",
+  "factorio_version": "1.0.0",
+  "title": "Island Block",
+  "author": "Alice Cecile",
+  "homepage": "https://github.com/alice-i-cecile/island-block",
+  "description": "Mine and Based on SeaBlock by Trainwreck",
   "dependencies": [
     "base",
     "angelsbioprocessing",
@@ -13,10 +13,8 @@
     "angelspetrochem",
     "bobelectronics",
     "boblogistics",
-    "? KS_Power",
-    "? A Sea Block Config",
+    "cargo-ships",
     "? LandfillPainting",
-    "? ScienceCostTweakerM",
-    "? SpaceMod"
+    "! SeaBlock"
   ]
 }
