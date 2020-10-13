@@ -256,37 +256,33 @@ local knowningredients = {
   }
   }
   
-  for k,v in pairs(knowningredients) do
-    local recipe = data.raw.recipe[k]
-    for ek, ev in pairs(recipe.normal or {}) do
-      recipe[ek] = ev
-    end
-    recipe.normal = nil
-    recipe.expensive = nil
-    recipe.ingredients = {}
-    for _, line in pairs(v) do
-      table.insert(recipe.ingredients, {type = 'item', name = line[1], amount = line[2]})
-    end
+for k,v in pairs(knowningredients) do
+  local recipe = data.raw.recipe[k]
+  for ek, ev in pairs(recipe.normal or {}) do
+    recipe[ek] = ev
   end
+  recipe.normal = nil
+  recipe.expensive = nil
+  recipe.ingredients = {}
+  for _, line in pairs(v) do
+    table.insert(recipe.ingredients, {type = 'item', name = line[1], amount = line[2]})
+  end
+end
   
-  -- Buff to wind turbine if included
-  if data.raw.item['wind-turbine-2'] then
-    lib.substingredient('wind-turbine-2', 'iron-plate', 'steel-plate', 2)
-    data.raw.recipe['wind-turbine-2'].enabled = false
-    table.insert(data.raw.technology['steel-processing'].effects,
-      { type = 'unlock-recipe', recipe = 'wind-turbine-2' })
-  end
+-- Buff to wind turbine if included
+if data.raw.item['wind-turbine-2'] then
+  lib.substingredient('wind-turbine-2', 'iron-plate', 'steel-plate', 2)
+  data.raw.recipe['wind-turbine-2'].enabled = false
+  table.insert(data.raw.technology['steel-processing'].effects,
+    { type = 'unlock-recipe', recipe = 'wind-turbine-2' })
+end
 
-  -- Reduce angels charcoal fuel value
+-- Reduce angels charcoal fuel value
 data.raw.item['wood-charcoal'].fuel_value = '4MJ'
 data.raw.item['pellet-coke'].fuel_value = '24MJ'
 
 lib.takeeffect('bio-wood-processing-2', 'carbon-from-charcoal')
 lib.takeeffect('bio-wood-processing-2', 'wood-charcoal')
-
-data.raw.technology['bio-paper-1'].prerequisites = {}
-data.raw.technology['landfill'].prerequisites = {}
-data.raw.technology['bio-processing-brown'].prerequisites = {}
 
 -- Make hydrazine solid fuel match fuel_value
 if data.raw.fluid['hydrazine'] then
@@ -351,6 +347,22 @@ end
 
 -- Tech trees --
 
+-- Unlock basic technologies easily
+
+local basic_tech = {
+  ['bio-paper-1'],
+  ['bio-processing-brown'],
+  ['landfill'],
+  ['angels-flare-stack'],
+  ['water-treatment']
+}
+
+for k in basic_tech do 
+  k.prerequisites = {}
+  k.unit.count = 10,
+  k.ingredients = {{'automation-science-pack', 1}}
+end
+
 -- Faster steel
 data.raw.technology['steel-processing'].prerequisites = {'chemical-processing-1'}
 data.raw.technology['steel-processing'].unit.count = 20
@@ -359,7 +371,7 @@ data.raw.technology['steel-processing'].unit.count = 20
 table.insert(data.raw.technology['slag-processing-1'].prerequisites, 'angels-sulfur-processing-1')
 table.insert(data.raw.technology['angels-sulfur-processing-1'].prerequisites, 'water-washing-1')
 
--- Red science level research for slag processing 1
+-- Reduce science costs for base technologes
 data.raw.technology['slag-processing-1'].unit = {
   count = 20,
   ingredients = {{'automation-science-pack', 1}},
