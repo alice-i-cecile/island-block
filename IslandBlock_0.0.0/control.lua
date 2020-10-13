@@ -16,18 +16,19 @@ islandblock.giveresearch = function(force)
 end
 
 islandblock.giveitems = function(entity)
-  local landfill = 'landfill'
-  if game.item_prototypes['landfill-sand-3'] then
-    landfill = 'landfill-sand-3'
-  end
   local stuff = {
     {"boat", 1},
     {"algae-farm", 1},
+    {"offshore-pump", 1}
   }
   for _,v in ipairs(stuff) do
     entity.insert{name = v[1], count = v[2]}
   end
 end
+
+script.on_event(defines.events.on_player_respawned, function(e)
+  islandblock.giveitems(game.players[e.player_index])
+end)
 
 script.on_event(defines.events.on_player_joined_game, function(e)
   islandblock.giveresearch(game.players[e.player_index].force)
