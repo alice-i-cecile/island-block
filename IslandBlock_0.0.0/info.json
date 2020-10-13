@@ -5,7 +5,7 @@
   "title": "Island Block",
   "author": "Alice Cecile",
   "homepage": "https://github.com/alice-i-cecile/island-block",
-  "description": "Mine and Based on SeaBlock by Trainwreck",
+  "description": "Renewable resource generation in a more interesting and faster fashion! Based on SeaBlock by Trainwreck",
   "dependencies": [
     "base",
     "angelsbioprocessing",
