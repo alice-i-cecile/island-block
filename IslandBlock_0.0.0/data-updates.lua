@@ -53,9 +53,6 @@ table.insert(data.raw.technology['advanced-electronics'].prerequisites, "resin-1
 -- Increase cost of resin->rubber smelting to encourage use of angels rubber synthesis
 lib.substingredient('bob-rubber', 'resin', nil, 4)
 
--- TODO: Create alternate recipe for small electric poles using wood bricks
--- data.raw.recipe['small-electric-pole'].ingredients = {{ "wood-bricks", 1 }, { "copper-cable", 2}}
-
 -- Will need a lot of landfill
 data.raw.recipe['landfill'].ingredients = {{ "stone-crushed", 10 }}
 for k,v in pairs(data.raw.item) do

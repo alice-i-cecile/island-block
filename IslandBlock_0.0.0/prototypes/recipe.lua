@@ -12,6 +12,17 @@ data:extend({
   },
   {
     type = "recipe",
+    name = "small-electric-pole-wood-brick",
+    ingredients =
+    {
+      {"wood-bricks", 1},
+      {"copper-cable", 2}
+    },
+    result = "small-electric-pole",
+    result_count = 2
+  },
+  {
+    type = "recipe",
     name = "thermal-bore-water",
     category = "thermal-bore",
     subgroup = "water-treatment",
