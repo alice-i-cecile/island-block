@@ -1,7 +1,6 @@
 require "prototypes/recipe"
 require "prototypes/recipe-category"
 require "prototypes/technology"
-require "prototypes/rockchest"
 
 local lib = require "lib"
 
