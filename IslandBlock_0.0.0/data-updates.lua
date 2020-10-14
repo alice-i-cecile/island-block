@@ -385,11 +385,8 @@ data.raw.technology['basic-chemistry-2'].unit = data.raw.technology['basic-chemi
 data.raw.technology['basic-chemistry-3'].enabled = false
 
 -- Shuffle carbon techs
-lib.takeeffect('bio-wood-processing', 'wood-pellets')
---lib.takeeffect('bio-wood-processing', 'gas-carbon-dioxide-from-wood')
 lib.moveeffect('cellulose-fiber-algae', 'bio-processing-brown', 'bio-wood-processing', 2)
 lib.moveeffect('wood-bricks', 'bio-wood-processing-3', 'bio-wood-processing', 3)
---lib.moveeffect('wood-from-cellulose', 'bio-wood-processing', 'bio-wood-processing-3')
 table.insert(data.raw.technology['bio-wood-processing-2'].effects,
   {type = 'unlock-recipe', recipe = 'sb-wood-bricks-charcoal'})
 table.insert(data.raw.technology['bio-wood-processing'].effects, 3,
