@@ -63,7 +63,6 @@ for _,v in ipairs({
   'water-thermal-lithia',
   'thermal-water-filtering-1',
   'thermal-water-filtering-2',
-  'circuit-paper-board', -- currently useless
   'protection-field-goopless',
   'slag-processing-7',
   'slag-processing-8',
