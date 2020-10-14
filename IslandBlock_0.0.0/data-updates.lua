@@ -29,12 +29,6 @@ lib.substingredient('carbon-separation-2', 'coal', 'wood-charcoal', 1)
 data.raw.recipe['solid-alginic-acid'].category = "crafting"
 data.raw.recipe['wooden-board-paper'].category = "crafting"
 
--- Fix handcrafting trying to use wrong crafting path
-data.raw.recipe['wooden-board'].category = "electronics-machine"
-data.raw.recipe['wooden-board'].enabled = false
-table.insert(data.raw.technology['bio-wood-processing-3'].effects,
-  {type = "unlock-recipe", recipe = "wooden-board"})
-
 data.raw.recipe['cellulose-fiber-algae'].allow_as_intermediate = false
 data.raw.recipe['cellulose-fiber-raw-wood'].allow_as_intermediate = false
 
@@ -429,7 +423,8 @@ for _,v in pairs({
   'bob-distillery-2',
   'bob-distillery-3',
   'bob-distillery-4',
-  'bob-distillery-5'}) do
+  'bob-distillery-5',
+  'bio-wood-processing-3'}) do
   disabletech(v)
 end
 
